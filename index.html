@@ -6,68 +6,153 @@
   <title>Singular Machines</title>
   <style>
     :root{
-      --brand-blue: #55c1e8;            /* <— replace with your icon’s hex */
+      --brand-blue: #55c1e8;
       --size-name: clamp(2.6rem, 10vw, 7.6rem);
-      --size-tag:  clamp(1.15rem, 4vw,  2.4rem);
-      --size-ctc:  clamp(1rem,  3vw,   1.6rem);
-      /* Vertical rhythm (multiples) */
+      --size-tag:  clamp(1.15rem, 4vw, 2.4rem);
+      --size-ctc:  clamp(1rem, 3vw, 1.6rem);
       --rhythm: clamp(12px, 2.4vmin, 24px);
     }
 
-    html, body { height: 100%; margin: 0; }
-    body{
-      font-family: Arial, sans-serif;
-      color:#000; background:#fff;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      overflow:hidden;                 /* avoid phantom scrollbars */
-      padding: 0 16px;                 /* horizontal breathing room */
+    html, body {
+      height: 100%;
+      margin: 0;
     }
 
-    main{ display:flex;
-      flex-direction:column;
-      align-items:center;
+    body{
+      font-family: Arial, sans-serif;
+      color: #000;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: calc(var(--rhythm) * 1.25); }
+      text-align: center;
+      overflow: hidden;
+      padding: 0 16px;
+    }
 
-    .company-name,.tagline{
-      user-select:none; -webkit-user-select:none; -ms-user-select:none;
+    main{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: calc(var(--rhythm) * 1.1);
+      transform: translateY(-2vh);
+    }
+
+    .company-name,
+    .tagline,
+    .award-badge,
+    footer{
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
     }
 
     .company-name{
-      font-size:var(--size-name);
-      font-weight:800;
-      line-height:1.04;
-      letter-spacing:0.01em;
+      font-size: var(--size-name);
+      font-weight: 800;
+      line-height: 1.04;
+      letter-spacing: 0.01em;
     }
+
     .company-name img.i-logo{
-      height:1.1em;
-      width:auto;
-      display:inline;
-      vertical-align:-0.03em;
+      height: 1.1em;
+      width: auto;
+      display: inline;
+      vertical-align: -0.03em;
       margin: -0.15em;
       padding: -0.15em;
-      user-select:none;
-      -webkit-user-drag:none;
-      pointer-events:none;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
     }
 
     .tagline{
-      font-size:var(--size-tag);
-      font-style:italic;
-      color:#666;
-      margin-top: calc(var(--rhythm) * 0.25);
-    }
-    .contact{
-      margin-top: calc(var(--rhythm) * 0.25);
-      font-size:var(--size-ctc);
+      font-size: var(--size-tag);
+      font-style: italic;
+      color: #666;
+      margin-top: calc(var(--rhythm) * 0.1);
     }
 
-    a{ color:var(--brand-blue); text-decoration:none; }
-    a:hover{ text-decoration:underline; }
+    .contact{
+      margin-top: calc(var(--rhythm) * 0.1);
+      font-size: var(--size-ctc);
+    }
+
+    a{
+      color: var(--brand-blue);
+      text-decoration: none;
+    }
+
+    a:hover{
+      text-decoration: underline;
+    }
+
+    .award-badge{
+      margin-top: calc(var(--rhythm) * 1.4);
+      padding: clamp(18px, 3.5vmin, 34px) clamp(22px, 5vmin, 48px);
+      border: 1px solid rgba(85,193,232,0.28);
+      border-radius: 22px;
+      background: linear-gradient(
+        180deg,
+        rgba(85,193,232,0.10) 0%,
+        rgba(85,193,232,0.04) 100%
+      );
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.65);
+      max-width: min(760px, 92vw);
+      text-align: center;
+    }
+
+    .award-kicker{
+      font-size: clamp(0.72rem, 1.5vw, 0.92rem);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(85,193,232,0.78);
+      margin-bottom: 0.45rem;
+    }
+
+    .award-title{
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--brand-blue);
+      margin-bottom: 0.7rem;
+    }
+
+    .award-rule{
+      width: clamp(56px, 10vw, 90px);
+      height: 2px;
+      margin: 0 auto 1rem;
+      background: rgba(85,193,232,0.45);
+      border-radius: 999px;
+    }
+
+    .award-name{
+      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: #2a2a2a;
+    }
+
+    .award-category{
+      margin-top: 0.45rem;
+      font-size: clamp(1rem, 2vw, 2rem);
+      line-height: 1.3;
+      color: rgba(85,193,232,0.92);
+    }
+
+    footer{
+      font-size: 0.9rem;
+      color: #b8b8b8;
+      background-color: #fff;
+      padding: 12px;
+      text-align: center;
+    }
 
     @media (max-width: 768px){
       body{
@@ -76,23 +161,20 @@
           16px
           calc(env(safe-area-inset-bottom, 0) + 20px);
       }
-      main{ gap: calc(var(--rhythm) * 1.1); }
+
+      main{
+        gap: calc(var(--rhythm) * 1);
+        transform: translateY(-1vh);
+      }
     }
 
-    @media (max-width:360px){
-      .company-name{ line-height:1.08; }
+    @media (max-width: 360px){
+      .company-name{
+        line-height: 1.08;
+      }
     }
-  footer {
-    font-size: 0.9rem;
-    color: #cccccc;
-    background-color: #fff;
-    padding: 12px;
-    text-align: center;
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-  }
   </style>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('img.i-logo').forEach(img =>
@@ -113,7 +195,15 @@
     <p class="contact">
       <a href="mailto:contact@singularmachines.co.uk">contact@singularmachines.co.uk</a>
     </p>
+
+    <div class="award-badge" aria-label="Award">
+      <div class="award-title">Winner</div>
+      <div class="award-rule"></div>
+      <div class="award-name">Innovate UK Agentic AI Pioneers Prize</div>
+      <div class="award-category">Advanced Manufacturing 2026</div>
+    </div>
   </main>
+
   <footer>
     <p>© 2026 Singular Machines Ltd</p>
   </footer>
