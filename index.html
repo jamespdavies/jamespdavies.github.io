@@ -1,211 +1,725 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Singular Machines</title>
-  <style>
-    :root{
-      --brand-blue: #55c1e8;
-      --size-name: clamp(2.6rem, 10vw, 7.6rem);
-      --size-tag:  clamp(1.15rem, 4vw, 2.4rem);
-      --size-ctc:  clamp(1rem, 3vw, 1.6rem);
-      --rhythm: clamp(12px, 2.4vmin, 24px);
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singular Machines</title>
+<meta name="description" content="A UK Atomic Energy Authority spinout, using AI to support the design of complex machinery, equipment and infrastructure.">
+<meta name="theme-color" content="#0A0C10">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:title" content="Singular Machines">
+<meta property="og:description" content="engineering, re-engineered.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://singularmachines.co.uk/">
 
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('assets/fonts/inter-latin-var.woff2') format('woff2');
+}
 
-    body{
-      font-family: Arial, sans-serif;
-      color: #000;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      padding: 0 16px;
-    }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    main{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: calc(var(--rhythm) * 1.1);
-      transform: translateY(-2vh);
-    }
+:root {
+  --bg:      #0A0C10;
+  --blue:    #55C0E7;
+  --blue-dk: rgba(85,192,231,0.34);
+  --text:    #E3EAF2;
+  --muted:   #8D98A6;
+  --hair:    rgba(255,255,255,0.09);
+}
 
-    .company-name,
-    .tagline,
-    .award-badge,
-    footer{
-      user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-    }
+html { background: var(--bg); scroll-behavior: smooth; }
 
-    .company-name{
-      font-size: var(--size-name);
-      font-weight: 800;
-      line-height: 1.04;
-      letter-spacing: 0.01em;
-    }
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
 
-    .company-name img.i-logo{
-      height: 1.1em;
-      width: auto;
-      display: inline;
-      vertical-align: -0.03em;
-      margin: -0.15em;
-      padding: -0.15em;
-      user-select: none;
-      -webkit-user-drag: none;
-      pointer-events: none;
-    }
+/* ---------- background layers ---------- */
 
-    .tagline{
-      font-size: var(--size-tag);
-      font-style: italic;
-      color: #666;
-      margin-top: calc(var(--rhythm) * 0.1);
-    }
+#field {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
 
-    .contact{
-      margin-top: calc(var(--rhythm) * 0.1);
-      font-size: var(--size-ctc);
-    }
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(10,12,16,0.80) 0%, rgba(10,12,16,0.55) 26%, rgba(10,12,16,0.12) 52%, rgba(10,12,16,0) 70%),
+    radial-gradient(118% 88% at 52% 46%, rgba(10,12,16,0) 0%, rgba(10,12,16,0.18) 58%, rgba(10,12,16,0.72) 100%),
+    linear-gradient(to bottom, rgba(10,12,16,0.5) 0%, rgba(10,12,16,0) 24%, rgba(10,12,16,0) 72%, rgba(10,12,16,0.66) 100%);
+}
 
-    a{
-      color: var(--brand-blue);
-      text-decoration: none;
-    }
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
 
-    a:hover{
-      text-decoration: underline;
-    }
+/* ---------- shell ---------- */
 
-    .award-badge{
-      margin-top: calc(var(--rhythm) * 1.4);
-      padding: clamp(18px, 3.5vmin, 34px) clamp(22px, 5vmin, 48px);
-      border: 1px solid rgba(85,193,232,0.28);
-      border-radius: 22px;
-      background: linear-gradient(
-        180deg,
-        rgba(85,193,232,0.10) 0%,
-        rgba(85,193,232,0.04) 100%
-      );
-      box-shadow:
-        0 10px 30px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.65);
-      max-width: min(760px, 92vw);
-      text-align: center;
-    }
+.hero {
+  position: relative;
+  z-index: 3;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto minmax(clamp(200px, 30vh, 340px), 1fr) auto;
+  padding: clamp(1.7rem, 4.4vh, 3.2rem) clamp(1.5rem, 6vw, 5.5rem);
+  gap: clamp(2rem, 5vh, 3.5rem);
+}
 
-    .award-kicker{
-      font-size: clamp(0.72rem, 1.5vw, 0.92rem);
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(85,193,232,0.78);
-      margin-bottom: 0.45rem;
-    }
+/* ---------- wordmark ---------- */
 
-    .award-title{
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.02em;
-      color: var(--brand-blue);
-      margin-bottom: 0.7rem;
-    }
+.wordmark {
+  display: inline-block;
+  font-size: clamp(1.15rem, 2.2vw, 1.62rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.014em;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
 
-    .award-rule{
-      width: clamp(56px, 10vw, 90px);
-      height: 2px;
-      margin: 0 auto 1rem;
-      background: rgba(85,193,232,0.45);
-      border-radius: 999px;
-    }
+.wordmark span { display: block; }
 
-    .award-name{
-      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-      font-weight: 600;
-      line-height: 1.25;
-      color: #2a2a2a;
-    }
+.wordmark .mark {
+  height: 1.06em;
+  width: auto;
+  vertical-align: -0.165em;
+  margin: 0 -0.10em 0 -0.125em;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
 
-    .award-category{
-      margin-top: 0.45rem;
-      font-size: clamp(1rem, 2vw, 2rem);
-      line-height: 1.3;
-      color: rgba(85,193,232,0.92);
-    }
+/* ---------- centre ---------- */
 
-    footer{
-      font-size: 0.9rem;
-      color: #b8b8b8;
-      background-color: #fff;
-      padding: 12px;
-      text-align: center;
-    }
+.centre {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: min(52ch, 100%);
+}
 
-    @media (max-width: 768px){
-      body{
-        padding:
-          calc(env(safe-area-inset-top, 0) + 16px)
-          16px
-          calc(env(safe-area-inset-bottom, 0) + 20px);
-      }
+.rule {
+  width: 1px;
+  height: clamp(1.9rem, 4vh, 2.9rem);
+  background: linear-gradient(to bottom, var(--blue), rgba(85,192,231,0));
+  margin-bottom: clamp(1.3rem, 3vh, 2.2rem);
+}
 
-      main{
-        gap: calc(var(--rhythm) * 1);
-        transform: translateY(-1vh);
-      }
-    }
+h1 {
+  font-size: clamp(2.15rem, 6.4vw, 5.1rem);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  color: #F1F5FA;
+}
 
-    @media (max-width: 360px){
-      .company-name{
-        line-height: 1.08;
-      }
-    }
-  </style>
+h1 .nb { white-space: nowrap; }
+h1 .dot { color: var(--blue); }
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('img.i-logo').forEach(img =>
-        img.addEventListener('contextmenu', e => e.preventDefault())
-      );
-    });
-  </script>
+.sub-line {
+  margin-top: clamp(1.1rem, 2.4vh, 1.6rem);
+  max-width: 48ch;
+  font-size: clamp(0.84rem, 1.2vw, 0.98rem);
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
+  color: #9BA6B4;
+}
+
+/* ---------- prize ---------- */
+
+.prize {
+  margin-top: clamp(1.9rem, 4.5vh, 3rem);
+  padding-left: clamp(0.9rem, 1.6vw, 1.2rem);
+  border-left: 1px solid var(--blue-dk);
+}
+
+.prize-kicker {
+  font-size: clamp(0.6rem, 0.95vw, 0.68rem);
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 0.62rem;
+}
+
+.prize-name {
+  font-size: clamp(0.92rem, 1.5vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.35;
+  color: #D3DCE6;
+}
+
+.prize-cat {
+  margin-top: 0.2rem;
+  font-size: clamp(0.8rem, 1.25vw, 0.92rem);
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* ---------- contact ---------- */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: clamp(2.1rem, 5vh, 3.4rem);
+  padding: clamp(0.8rem, 1.5vh, 1rem) clamp(1.15rem, 2.2vw, 1.6rem);
+  border: 1px solid var(--blue-dk);
+  background: rgba(10,12,16,0.5);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  color: var(--blue);
+  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: border-color 0.28s ease, background 0.28s ease, box-shadow 0.28s ease, color 0.28s ease;
+}
+
+.cta svg { display: block; transition: transform 0.28s ease; }
+
+.cta:hover, .cta:focus-visible {
+  border-color: rgba(85,192,231,0.72);
+  background: rgba(85,192,231,0.06);
+  box-shadow: 0 0 34px rgba(85,192,231,0.10), inset 0 0 22px rgba(85,192,231,0.035);
+  color: #8AD6F2;
+  outline: none;
+}
+
+.cta:hover svg, .cta:focus-visible svg { transform: translateX(4px); }
+
+/* ---------- scroll cue ---------- */
+
+.cue {
+  align-self: end;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #6F7986;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.cue svg { display: block; animation: cue-bob 2.8s ease-in-out infinite; }
+.cue:hover, .cue:focus-visible { color: var(--blue); outline: none; }
+
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(-2px); opacity: 0.5; }
+  50%      { transform: translateY(2px);  opacity: 1; }
+}
+
+/* ---------- news ---------- */
+
+.news {
+  position: relative;
+  z-index: 3;
+  border-top: 1px solid var(--hair);
+  background: rgba(10,12,16,0.74);
+  -webkit-backdrop-filter: blur(11px);
+  backdrop-filter: blur(11px);
+  padding: clamp(2.8rem, 8vh, 5.5rem) clamp(1.5rem, 6vw, 5.5rem) clamp(1.7rem, 4.4vh, 3.2rem);
+}
+
+.news-inner { max-width: 64ch; }
+
+.news-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: clamp(1.6rem, 4vh, 2.6rem);
+}
+
+.item + .item {
+  margin-top: clamp(1.8rem, 4vh, 2.6rem);
+  padding-top: clamp(1.8rem, 4vh, 2.6rem);
+  border-top: 1px solid var(--hair);
+}
+
+.item-date {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6F7986;
+  margin-bottom: 0.6rem;
+}
+
+.item-title {
+  font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: #E9EFF6;
+  margin-bottom: 0.55rem;
+}
+
+.item-body {
+  font-size: clamp(0.88rem, 1.25vw, 0.97rem);
+  font-weight: 300;
+  line-height: 1.68;
+  color: #9BA6B4;
+}
+
+.item-link {
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 1px solid var(--blue-dk);
+  transition: border-color 0.25s ease;
+}
+
+.item-link:hover, .item-link:focus-visible { border-color: var(--blue); outline: none; }
+
+/* ---------- footer ---------- */
+
+footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.9rem 2rem;
+  flex-wrap: wrap;
+  margin-top: clamp(3rem, 9vh, 6rem);
+  font-size: 0.66rem;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  color: #6F7986;
+}
+
+footer a {
+  color: #6F7986;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+footer a:hover, footer a:focus-visible { color: var(--blue); outline: none; }
+
+/* ---------- entrance ---------- */
+
+.fade { opacity: 0; animation: fade-up 0.85s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+.d1 { animation-delay: 0.15s } .d2 { animation-delay: 0.34s }
+.d3 { animation-delay: 0.50s } .d4 { animation-delay: 0.66s }
+.d5 { animation-delay: 0.82s } .d6 { animation-delay: 1.0s }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(11px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- narrow / short ---------- */
+
+@media (max-width: 640px) {
+  .centre { max-width: 100%; }
+  h1 { letter-spacing: -0.028em; }
+  footer { font-size: 0.6rem; letter-spacing: 0.13em; }
+}
+
+@media (max-height: 620px) {
+  .rule { display: none; }
+  .shell { gap: 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade { opacity: 1; animation: none; }
+  .cue svg { animation: none; opacity: 0.8; }
+  .cta, .cta svg, footer a, .cue { transition: none; }
+}
+</style>
 </head>
 <body>
-  <main>
-    <div class="company-name">
-      s<img src="i.svg" alt="i logo" class="i-logo">ngular<br>
-      mach<img src="i.svg" alt="i logo" class="i-logo">nes
+
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="hero">
+
+  <header>
+    <a class="wordmark fade d1" href="/" aria-label="Singular Machines">
+      <span>s<img class="mark" src="assets/i-dark.svg" alt="">ngular</span>
+      <span>mach<img class="mark" src="assets/i-dark.svg" alt="">nes</span>
+    </a>
+  </header>
+
+  <div class="centre">
+    <div class="rule fade d2" aria-hidden="true"></div>
+
+    <h1 class="fade d3">engineering,<br><span class="nb">re-engineered<span class="dot">.</span></span></h1>
+
+    <p class="sub-line fade d4">A UK Atomic Energy Authority spinout, using AI to support the design of
+    complex machinery, equipment and infrastructure.</p>
+
+    <div class="prize fade d5">
+      <div class="prize-kicker">Winner</div>
+      <div class="prize-name">Innovate UK Agentic AI Pioneers Prize</div>
+      <div class="prize-cat">Advanced Manufacturing 2026</div>
     </div>
 
-    <div class="tagline">engineering, re-engineered</div>
+    <a class="cta fade d6" href="mailto:contact@singularmachines.co.uk">
+      <span>Get in touch</span>
+      <svg width="17" height="9" viewBox="0 0 17 9" fill="none" aria-hidden="true">
+        <path d="M0 4.5h15M11.4 0.9 15 4.5l-3.6 3.6" stroke="currentColor" stroke-width="1.1"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
 
-    <p class="contact">
-      <a href="mailto:contact@singularmachines.co.uk">contact@singularmachines.co.uk</a>
-    </p>
+  <a class="cue fade d6" href="#news">
+    <span>News</span>
+    <svg width="9" height="14" viewBox="0 0 9 14" fill="none" aria-hidden="true">
+      <path d="M4.5 0v12.4M0.9 8.8l3.6 3.6 3.6-3.6" stroke="currentColor" stroke-width="1.1"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
 
-    <div class="award-badge" aria-label="Award">
-      <div class="award-title">Winner</div>
-      <div class="award-rule"></div>
-      <div class="award-name">Innovate UK Agentic AI Pioneers Prize</div>
-      <div class="award-category">Advanced Manufacturing 2026</div>
-    </div>
-  </main>
+</div>
+
+<section class="news" id="news">
+  <div class="news-inner">
+
+    <div class="news-label">News</div>
+
+    <!-- ===========================================================
+         HOW TO ADD A NEWS ITEM
+         Copy everything from <article class="item"> down to </article>,
+         paste it in immediately below this comment, then edit the three
+         lines: the date, the heading, and the paragraph.
+         Newest item goes at the top. Nothing else needs changing.
+         =========================================================== -->
+
+    <article class="item">
+      <div class="item-date">August 2026</div>
+      <h2 class="item-title">Pre-seed round closed</h2>
+      <p class="item-body">Singular Machines has closed a pre-seed funding round with Oxford Science
+      Enterprises, the UK Innovation &amp; Science Seed Fund (UKI2S) and Mirai Creation Investments,
+      Tokyo. There will be more to say in the coming months.</p>
+    </article>
+
+    <article class="item">
+      <div class="item-date">August 2026</div>
+      <h2 class="item-title">Coverage in Nikkei</h2>
+      <p class="item-body">Nikkei, Japan's financial daily, reports on Singular Machines' entry
+      into Japan.
+      <!-- When there is a public URL for a story, add a link like this one
+           (delete this comment and use the line inside it):
+           <a class="item-link" href="https://example.com/article">Read the article</a> --></p>
+    </article>
+
+  </div>
 
   <footer>
-    <p>© 2026 Singular Machines Ltd</p>
+    <span>&copy; 2026 Singular Machines Ltd</span>
+    <a href="mailto:contact@singularmachines.co.uk">contact@singularmachines.co.uk</a>
   </footer>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var cv = document.getElementById('field');
+  if (!cv) return;
+  var ctx = cv.getContext('2d');
+  if (!ctx) return;
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse  = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+
+  var W = 0, H = 0, DPR = 1, cx = 0, cy = 0, T = 0;
+
+  /* --- lattice: a slab of nodes in world space, rebuilt to suit the viewport --- */
+
+  var NX = 0, NY = 0, NZ = 3;
+  var SX = 3.8, SY = 3.8;
+  var Z0 = 2.5, Z1 = 6.3, ZC = (Z0 + Z1) / 2;
+
+  var bx, by, bz, sxA, syA, alA, buA, live;
+  var edges;
+  var count = 0;
+
+  var BUCKETS = 6;
+  var A_MAX = 1.0;
+  var NEAR = [152, 216, 244], FAR = [62, 92, 120];
+  var bucketFill = [], bucketStroke = [];
+
+  for (var b = 0; b < BUCKETS; b++) {
+    var t = BUCKETS === 1 ? 1 : b / (BUCKETS - 1);
+    var r = Math.round(FAR[0] + (NEAR[0] - FAR[0]) * t);
+    var g = Math.round(FAR[1] + (NEAR[1] - FAR[1]) * t);
+    var bl = Math.round(FAR[2] + (NEAR[2] - FAR[2]) * t);
+    var a = ((b + 0.55) / BUCKETS) * A_MAX;
+    bucketFill.push('rgba(' + r + ',' + g + ',' + bl + ',' + a.toFixed(3) + ')');
+    bucketStroke.push('rgba(' + r + ',' + g + ',' + bl + ',' + (a * 0.72).toFixed(3) + ')');
+  }
+
+  /* node spacing is held near-constant on screen, so a phone gets a calm
+     lattice rather than a dense one; SX covers the width at any viewport */
+  function buildLattice() {
+    var aspect = H / Math.max(W, 1);
+    var gap = W < 700 ? 92 : 132;
+    NX = Math.max(4, Math.min(26, Math.round(1 + 1.071 * W / gap)));
+    NY = Math.max(4, Math.min(26, Math.round(1 + 1.071 * H / gap)));
+    SY = SX * aspect;
+
+    count = NX * NY * NZ;
+    bx = new Float32Array(count); by = new Float32Array(count); bz = new Float32Array(count);
+    sxA = new Float32Array(count); syA = new Float32Array(count);
+    alA = new Float32Array(count); buA = new Int8Array(count); live = new Uint8Array(count);
+
+    var n = 0;
+    for (var k = 0; k < NZ; k++) {
+      for (var j = 0; j < NY; j++) {
+        for (var i = 0; i < NX; i++) {
+          bx[n] = -SX + 2 * SX * (NX > 1 ? i / (NX - 1) : 0.5);
+          by[n] = -SY + 2 * SY * (NY > 1 ? j / (NY - 1) : 0.5);
+          bz[n] = Z0 + (Z1 - Z0) * (NZ > 1 ? k / (NZ - 1) : 0.5);
+          n++;
+        }
+      }
+    }
+
+    var e = [];
+    for (k = 0; k < NZ; k++) {
+      for (j = 0; j < NY; j++) {
+        for (i = 0; i < NX; i++) {
+          var id = k * NX * NY + j * NX + i;
+          if (i < NX - 1) { e.push(id, id + 1); }
+          if (j < NY - 1) { e.push(id, id + NX); }
+        }
+      }
+    }
+    edges = new Int32Array(e);
+  }
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    cx = W / 2; cy = H / 2;
+    cv.width  = Math.round(W * DPR);
+    cv.height = Math.round(H * DPR);
+    cv.style.width = W + 'px';
+    cv.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    buildLattice();
+    draw(T);
+  }
+
+  /* --- pointer and zoom --- */
+
+  var mx = -1e4, my = -1e4;          // pointer, screen px
+  var tiltX = 0, tiltY = 0;          // eased pointer parallax, -1..1
+  var wantTiltX = 0, wantTiltY = 0;
+  var dolly = 0, wantDolly = 0;      // camera push, world units
+  var WELL_R = 215, WELL_R2 = WELL_R * WELL_R, WELL_PUSH = 23;
+
+  function aim(x, y) {
+    mx = x; my = y;
+    wantTiltX = (x / Math.max(W, 1)) * 2 - 1;
+    wantTiltY = (y / Math.max(H, 1)) * 2 - 1;
+  }
+
+  if (!reduced) {
+    window.addEventListener('mousemove', function (e) { aim(e.clientX, e.clientY); }, { passive: true });
+    window.addEventListener('mouseleave', function () { mx = my = -1e4; wantTiltX = wantTiltY = 0; });
+
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey) return;
+      wantDolly = Math.max(-1.15, Math.min(2.4, wantDolly + e.deltaY * 0.0017));
+    }, { passive: true });
+
+    var pinchD0 = 0, pinchDolly0 = 0;
+
+    window.addEventListener('touchstart', function (e) {
+      if (e.touches.length === 2) {
+        pinchD0 = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
+                             e.touches[0].clientY - e.touches[1].clientY);
+        pinchDolly0 = wantDolly;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', function (e) {
+      if (e.touches.length === 2 && pinchD0 > 0) {
+        var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
+                           e.touches[0].clientY - e.touches[1].clientY);
+        wantDolly = Math.max(-1.15, Math.min(2.4, pinchDolly0 + (pinchD0 / Math.max(d, 1) - 1) * 2.2));
+      } else if (e.touches.length === 1) {
+        aim(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', function (e) {
+      if (e.touches.length === 0) { mx = my = -1e4; wantTiltX = wantTiltY = 0; pinchD0 = 0; }
+    }, { passive: true });
+  }
+
+  /* --- projection --- */
+
+  function draw(T) {
+    ctx.clearRect(0, 0, W, H);
+
+    var yaw   = 0.135 * Math.sin(T * 0.061) + tiltX * 0.21;
+    var pitch = 0.075 * Math.sin(T * 0.043) + tiltY * 0.14;
+    var cosY = Math.cos(yaw), sinY = Math.sin(yaw);
+    var cosP = Math.cos(pitch), sinP = Math.sin(pitch);
+    var f = W * 0.62;
+    var zNear = ZC + dolly - 2.55, zSpan = 5.3;
+    var pointing = mx > -1e3;
+
+    var i, x, y, z, zr, x1, z1, y1, z2, zf, s, dxs, dys, d2, d, u, kk, a, bi;
+
+    for (i = 0; i < count; i++) {
+      x = bx[i]; y = by[i]; z = bz[i];
+
+      /* continuous deformation, no per-frame randomness */
+      x += 0.22 * Math.sin(y * 1.85 + z * 1.05 + T * 0.23) + 0.09 * Math.sin(x * 3.1 - T * 0.31);
+      y += 0.22 * Math.sin(x * 1.65 - z * 0.85 + T * 0.19) + 0.09 * Math.sin(y * 2.7 + T * 0.27);
+      z += 0.32 * Math.sin(x * 1.15 + y * 0.95 + T * 0.15);
+
+      zr = z - ZC;
+      x1 =  x * cosY + zr * sinY;
+      z1 = -x * sinY + zr * cosY;
+      y1 =  y * cosP - z1 * sinP;
+      z2 =  y * sinP + z1 * cosP;
+
+      zf = z2 + ZC + dolly;
+      if (zf < 0.55) { live[i] = 0; continue; }
+
+      s = f / zf;
+      var sx = cx + x1 * s;
+      var sy = cy + y1 * s;
+
+      a = 1 - (zf - zNear) / zSpan;
+      if (a < 0) a = 0; else if (a > 1) a = 1;
+      a = (a * a * 0.55 + a * 0.45) * 1.18 + 0.06;
+
+      if (pointing) {
+        dxs = sx - mx; dys = sy - my;
+        d2 = dxs * dxs + dys * dys;
+        if (d2 < WELL_R2) {
+          d = Math.sqrt(d2) || 0.001;
+          u = 1 - d / WELL_R;
+          kk = u * u * (3 - 2 * u);
+          sx += (dxs / d) * kk * WELL_PUSH;
+          sy += (dys / d) * kk * WELL_PUSH;
+          a += kk * 0.62;
+        }
+      }
+
+      if (a > A_MAX) a = A_MAX;
+      bi = (a / A_MAX) * BUCKETS | 0;
+      if (bi > BUCKETS - 1) bi = BUCKETS - 1;
+
+      sxA[i] = sx; syA[i] = sy; alA[i] = a; buA[i] = bi;
+      live[i] = (sx > -60 && sx < W + 60 && sy > -60 && sy < H + 60) ? 1 : 2;
+    }
+
+    /* pointer lens */
+    if (pointing) {
+      var gr = ctx.createRadialGradient(mx, my, 0, mx, my, WELL_R * 1.35);
+      gr.addColorStop(0, 'rgba(85,192,231,0.09)');
+      gr.addColorStop(1, 'rgba(85,192,231,0)');
+      ctx.fillStyle = gr;
+      ctx.fillRect(mx - WELL_R * 1.4, my - WELL_R * 1.4, WELL_R * 2.8, WELL_R * 2.8);
+    }
+
+    /* edges, batched by depth bucket */
+    ctx.lineWidth = 1;
+    for (var bk = 0; bk < BUCKETS; bk++) {
+      ctx.beginPath();
+      var drew = false;
+      for (var e = 0; e < edges.length; e += 2) {
+        var p = edges[e], q = edges[e + 1];
+        if (!live[p] || !live[q]) continue;
+        if (live[p] === 2 && live[q] === 2) continue;
+        var lb = buA[p] < buA[q] ? buA[p] : buA[q];
+        if (lb !== bk) continue;
+        ctx.moveTo(sxA[p], syA[p]);
+        ctx.lineTo(sxA[q], syA[q]);
+        drew = true;
+      }
+      if (drew) { ctx.strokeStyle = bucketStroke[bk]; ctx.stroke(); }
+    }
+
+    /* nodes, batched by depth bucket */
+    for (bk = 0; bk < BUCKETS; bk++) {
+      ctx.beginPath();
+      drew = false;
+      var rr = 0.7 + (bk / (BUCKETS - 1)) * 1.7;
+      for (i = 0; i < count; i++) {
+        if (live[i] !== 1 || buA[i] !== bk) continue;
+        ctx.rect(sxA[i] - rr, syA[i] - rr, rr * 2, rr * 2);
+        drew = true;
+      }
+      if (drew) {
+        if (bk >= BUCKETS - 2) {
+          ctx.shadowColor = 'rgba(85,192,231,0.5)';
+          ctx.shadowBlur = bk === BUCKETS - 1 ? 12 : 6;
+        }
+        ctx.fillStyle = bucketFill[bk];
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+  }
+
+  /* --- loop --- */
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  if (!reduced) {
+    var last = 0;
+    (function tick(ts) {
+      requestAnimationFrame(tick);
+      if (document.hidden) { last = ts; return; }
+      var dt = last ? Math.min((ts - last) / 1000, 0.05) : 0.016;
+      last = ts;
+      T += dt;
+
+      tiltX += (wantTiltX - tiltX) * 0.055;
+      tiltY += (wantTiltY - tiltY) * 0.055;
+      dolly += (wantDolly - dolly) * 0.075;
+
+      draw(T);
+    })(0);
+  }
+})();
+</script>
+
 </body>
 </html>
